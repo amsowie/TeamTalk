@@ -18,6 +18,7 @@ class Athlete(db.Model):
     a_fname = db.Column(db.String(50), nullable=False)
     a_lname = db.Column(db.String(30), nullable=False)
     a_phone = db.Column(db.String(20), nullable=False)
+    a_email = db.Column(db.String(30), nullable=False)
     password = db.Column(db.String(100), nullable=False)
 
     def __repr__(self):  # pragma: no cover
@@ -27,7 +28,7 @@ class Athlete(db.Model):
                                                                 self.a_fname,
                                                                 self.a_lname)
 
-# Table to keep track of coach data
+# Table to keep track of coaches
 class Coach(db.Model):
     """Table for coach information"""
 
@@ -37,6 +38,7 @@ class Coach(db.Model):
     coach_fname = db.Column(db.String(30), nullable=False)
     coach_lname = db.Column(db.String(30), nullable=False)
     coach_phone = db.Column(db.String(20), nullable=False)
+    coach_email = db.Column(db.String(30), nullable=False)
     password = db.Column(db.String(100), nullable=False)
 
     def __repr__(self):  # pragma: no cover
@@ -55,7 +57,7 @@ class Team(db.Model):
 
     team_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     team_name = db.Column(db.String(50), nullable=False)
-    coach_id = db.Column(db.Integer, db.ForeignKey('coach.coach_id'), nullable=False)
+    coach_id = db.Column(db.Integer, db.ForeignKey('coaches.coach_id'), nullable=False)
     athlete_id = db.Column(db.Integer, db.ForeignKey('athletes.athlete_id'), nullable=False)
 
     def __repr__(self):  # pragma: no cover
@@ -75,7 +77,7 @@ def connect_to_db(app, db_uri='postgresql:///bundes'):
     # Configure to use the PostgresSQL database
     app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    # app.config['SQLALCHEMY_ECHO'] = True
+    app.config['SQLALCHEMY_ECHO'] = True
     db.app = app
     db.init_app(app)
 

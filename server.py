@@ -8,10 +8,13 @@ import requests
 import os
 
 from twilio.rest import Client
+
+# Secrets and create client for Twilio
 auth_token = os.environ.get('TWILIO_AUTH')
 account_sid = os.environ.get('TWILIO_SID')
 twilio_phone = os.environ.get('TWILIO_PHONE')
 my_phone = os.environ.get('AMY_PHONE')
+client = Client(account_sid, auth_token)
 
 from model import connect_to_db, db, Team, Athlete, Coach
 app = Flask(__name__)
@@ -20,18 +23,11 @@ app.secret_key = "Thanksforallthefish"
 ##############################################################################
 
 # Homepage
-@app.route('/sms')
+@app.route('/home')
 def index():
     """Welcome to bundesliga project page"""
 
-    # client = Client(account_sid, auth_token)
-
-    # message = client.messages.create(
-    #     to=my_phone,
-    #     from_=twilio_phone,
-    #     body="Hello from Python!")
-
-    # print(message.sid)
+    
 
     return render_template('home.html')
 
@@ -55,7 +51,7 @@ def login_process():
     # coach only table
     if member == 'coach':
         #find coach in coach table
-        coach = db.session.query(Coach).filter(Coach.email == email).first()
+        coach = db.session.query(Coach).filter(Coach.coach_email == email).first()
 
         # coach exists and password correct, redirect to team page with
         if coach:
@@ -65,11 +61,11 @@ def login_process():
                 # add user to session
                 session['coach_name'] = coach.coach_fname
                 session['coach_id'] = coach.coach_id
-            return render_template('/teams')
+                return render_template('teamboard.html', name=coach.coach_fname)
 
     if member == 'athlete':
         #find athlete in athlete table
-        athlete = db.session.query(Athlete).filter(Athlete.email == email).first()
+        athlete = db.session.query(Athlete).filter(Athlete.a_email == email).first()
 
         # athlete exists and password correct, redirect to team page with
         if athlete:
@@ -79,11 +75,11 @@ def login_process():
                 # add user to session
                 session['athlete_name'] = athlete.a_fname
                 session['athlete_id'] = athlete.athlete_id
-            return render_template('/teams')
+                return render_template('teamboard.html', name=athlete.a_fname)
 
-        # Redirect to login, incorrect information
+    # Redirect to login, incorrect information
     flash("No user exists with that information. Please register or try again.")
-    return redirect('/login')
+    return redirect('/login')  # change to home when you add navbar
 
 @app.route('/register')
 def register():
@@ -91,6 +87,43 @@ def register():
 
 
     return render_template('register.html')
+
+@app.route('/register-process')
+def register_process():
+    """Registration processing page"""
+
+
+    return render_template('register.html')
+
+@app.route('/logout')
+def logout():
+    """Log out and remove session"""
+
+    # Delete athlete session info
+    if member == 'athlete':
+        del session['athlete_name']
+        del session['athlete_id']
+    # Delete coach session info
+    else:
+        del session['coach_name']
+        del session['coach_id']
+
+    # Delete team session info
+    # del session[team_id]
+        
+    return redirect('/home')
+
+@app.route('/sms')
+def send_message():
+
+
+    message = client.messages.create(
+        to=my_phone,
+        from_=twilio_phone,
+        body="Hello from Python!")
+
+    print(message.sid)
+    return redirect('/sms')
 ##############################################################################
 if __name__ == "__main__":  # will connect to db if you run python server.py
     app.debug = True        # won't run in testy.py because it's not server.py

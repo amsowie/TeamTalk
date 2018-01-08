@@ -5,9 +5,18 @@
 {% endblock %}
 
 {% block content %}
-<div><h3> {{ team_name }} Team Talk Page</h3></div> 
+<div><h3>  Team Talk Page</h3></div> 
 <br><br>
-<div>
-HI TEAMS!
-</div>
+  <div>
+  HI {{ name }} TEAMS!
+  </div>
+  <div>
+    <h3>Enter a message below to send to the team (limit 1600 characters)</h3>
+    <form action="/sms" id="send-msg" method="POST">
+      <p>Message</p>
+      <input type="text" name="msg">
+      <input type="submit" value="Send Message">
+    </form>
+  </div> <!-- end div for message form -->
+
 {% endblock %}

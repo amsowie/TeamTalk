@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %} TeamTalk
+
+{% endblock %}
+
+{% block content %}
+<div><h3>Please log in</h3></div> 
+<br><br>
+<div>
+<form action="login-process" method="POST">
+  <p>Email:</p>
+  <input type="text" name="email" value="a@den.com"><br><br>
+  <p>Password:</p>
+  <input type="password" name="psw"><br><br>
+  <p>Check one:</p>
+  <input type="radio" name="member-type" value="coach" checked> Coach<br>
+  <input type="radio" name="member-type" value="athlete"> Athlete<br><br>
+  <input type="submit" value="Login">
+</form>
+</div>
+{% endblock %}

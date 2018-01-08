@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %} TeamTalk
+
+{% endblock %}
+
+{% block content %}
+<div><h3>Welcome to Team Talk Registration</h3></div> 
+<br><br>
+<div>
+<form action="/coach_reg">
+  <p>First name:</p>
+  <input type="text" name="firstname" value="Arthur"><br><br>
+  <p>Last name:</p>
+  <input type="text" name="lastname" value="Dent"><br><br>
+  <p>Email:</p>
+  <input type="text" name="email" value="a@den.com"><br><br>
+  <p>Phone (+12345678901):</p>
+  <input type="text" name="phone" value="+12345678901"><br><br>
+  <p>Check one:</p>
+  <input type="radio" name="member-type" value="coach" checked> Coach<br>
+  <input type="radio" name="member-type" value="athlete"> Athlete<br><br>
+  <p>Password:</p>
+  <input type="password" name="psw"><br><br>
+  <input type="submit" value="Sign up!">
+</form>
+</div>
+{% endblock %}

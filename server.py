@@ -59,8 +59,8 @@ def login_process():
             coach.password.encode('utf-8')) == coach.password)):
 
                 # add user to session
-                session['coach_name'] = coach.coach_fname
-                session['coach_id'] = coach.coach_id
+                session['name'] = coach.coach_fname
+                session['id'] = coach.coach_id
                 return render_template('teamboard.html', name=coach.coach_fname)
 
     if member == 'athlete':
@@ -73,8 +73,8 @@ def login_process():
             athlete.password.encode('utf-8')) == athlete.password)):
 
                 # add user to session
-                session['athlete_name'] = athlete.a_fname
-                session['athlete_id'] = athlete.athlete_id
+                session['name'] = athlete.a_fname
+                session['id'] = athlete.athlete_id
                 return render_template('teamboard.html', name=athlete.a_fname)
 
     # Redirect to login, incorrect information
@@ -88,42 +88,72 @@ def register():
 
     return render_template('register.html')
 
-@app.route('/register-process')
+@app.route('/register-process', methods=['POST'])
 def register_process():
     """Registration processing page"""
 
+    member = request.form.get('member-type')
+    fname = request.form.get('firstname')
+    lname = request.form.get('lastname')
+    phone = request.form.get('phone')
+    email = request.form.get('email')
+    password = request.form.get('password')
+    team = request.form.get('team-name')
 
-    return render_template('register.html')
+    hashed_pass = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
+
+    if member == 'athlete':
+        new_athlete = Athlete(a_fname=fname, a_lname=lname, a_phone=phone,
+                              a_email=email, password=hashed_pass)
+        db.session.add(new_athlete)
+        db.session.commit()
+
+        session['name'] = new_athlete.a_fname
+        session['id'] = new_athlete.athlete_id
+
+    if member == 'coach':
+        new_coach = Coach(coach_fname=fname, coach_lname=lname,
+                          coach_phone=phone, coach_email=email, password=hashed_pass)
+        db.session.add(new_coach)
+        db.session.commit()
+
+        session['name'] = new_coach.coach_fname
+        session['id'] = new_coach.coach_id
+
+    flash('Thank you for registering')
+
+    return render_template('teamboard.html', team=team)
 
 @app.route('/logout')
 def logout():
     """Log out and remove session"""
 
-    # Delete athlete session info
-    if member == 'athlete':
-        del session['athlete_name']
-        del session['athlete_id']
-    # Delete coach session info
-    else:
-        del session['coach_name']
-        del session['coach_id']
+    del session['name']
+    del session['id']
 
     # Delete team session info
     # del session[team_id]
         
     return redirect('/home')
 
-@app.route('/sms')
+@app.route('/teams')
+def teams():
+    """Team page"""
+
+    return render_template('teamboard.html')
+
+@app.route('/sms-send', methods=['POST'])
 def send_message():
 
-
+    content = request.form.get('userMessage')
+    # import pdb; pdb.set_trace()
     message = client.messages.create(
         to=my_phone,
         from_=twilio_phone,
-        body="Hello from Python!")
+        body=content)
 
     print(message.sid)
-    return redirect('/sms')
+    return redirect('/teams', code=307)
 ##############################################################################
 if __name__ == "__main__":  # will connect to db if you run python server.py
     app.debug = True        # won't run in testy.py because it's not server.py

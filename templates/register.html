@@ -8,7 +8,7 @@
 <div><h3>Welcome to Team Talk Registration</h3></div> 
 <br><br>
 <div>
-<form action="register" method="POST">
+<form action="register-process" method="POST">
   <p>First name:</p>
   <input type="text" name="firstname"><br><br>
   <p>Last name:</p>
@@ -17,12 +17,15 @@
   <input type="text" name="email"><br><br>
   <p>Phone (+12345678901):</p>
   <input type="text" name="phone"><br><br>
+  <p>Team:</p>
+  <input type="radio" name="team-name" value="Affy" checked> Affalterbach<br>
+  <input type="radio" name="team-name" value="Kempten"> Kempten<br><br>
   <p>Check one:</p>
   <input type="radio" name="member-type" value="coach" checked> Coach<br>
   <input type="radio" name="member-type" value="athlete"> Athlete<br><br>
   <p>Password:</p>
   <input type="password" name="password"><br><br>
-  <input type="submit" value="Sign up!">
+  <input type="submit" value="Sign up">
 </form>
 </div>
 {% endblock %}

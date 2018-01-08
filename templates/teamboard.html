@@ -8,12 +8,12 @@
 <div><h3>  Team Talk Page</h3></div> 
 <br><br>
   <div>
-  HI {{ name }} TEAMS!
+  HI {{ session[name] }} to the {{ team }} TEAM PAGE!
   </div>
   <div>
     <h3>Enter a message below to send to the team (limit 1600 characters)</h3>
-    <form action="/sms" id="send-msg" method="POST">
-      <p>Message</p>
+    <form action="sms-send" id="send-msg" method="POST">
+      <p>Message Body</p>
       <input type="text" name="msg">
       <input type="submit" value="Send Message">
     </form>

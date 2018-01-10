@@ -110,7 +110,7 @@ def register_process():
         db.session.commit()
 
         session['name'] = new_athlete.a_fname
-        session['id'] = new_athlete.athlete_id
+        session['id'] = new_athlete.team_id
 
     if member == 'coach':
         new_coach = Coach(coach_fname=fname, coach_lname=lname,
@@ -119,7 +119,7 @@ def register_process():
         db.session.commit()
 
         session['name'] = new_coach.coach_fname
-        session['id'] = new_coach.coach_id
+        session['id'] = new_coach.team_id
 
     flash('Thank you for registering')
 
@@ -149,16 +149,20 @@ def teams():
 def send_message():
 
     content = request.form.get('userMessage')
-    print content
-    # import pdb; pdb.set_trace()
-    message = client.messages.create(
-        to=my_phone,
-        from_=twilio_phone,
-        body=content)
 
-    print(message.sid)
+    # phone_numbers = db.session.query(Team.athlete.a_phone).filter(Team.team_id == team_id).all()
+    phone_list = [my_phone, '+17196440060']
+    #  Cycle through whole team phone list
+    for number in phone_list:
+        message = client.messages.create(
+            to=my_phone,
+            from_=twilio_phone,
+            body=content)
+
+        print(message.sid)
+
     confirmation = "Message sent"
-    
+
     return jsonify(message=confirmation)
 ##############################################################################
 if __name__ == "__main__":  # will connect to db if you run python server.py

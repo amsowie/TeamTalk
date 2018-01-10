@@ -8,13 +8,14 @@
 <div><h3>  Team Talk Page</h3></div> 
 <br><br>
   <div>
-  HI {{ session[name] }} to the {{ team }} TEAM PAGE!
+  HI {{ session['name'] }} to the {{ team }} TEAM PAGE!
   </div>
   <div>
     <h3>Enter a message below to send to the team (limit 1600 characters)</h3>
     <form action="sms-send" id="send-msg" method="POST">
       <p>Message Body</p>
-      <input type="text" name="msg">
+      <span id="chars-left">1600</span> Characters Remaining<br>
+      <textarea type="text" id="text-type" name="msg" maxlength="1600"> </textarea>
       <input type="submit" value="Send Message">
     </form>
   </div> <!-- end div for message form -->

@@ -61,7 +61,7 @@ def login_process():
                 # add user to session
                 session['name'] = coach.coach_fname
                 session['id'] = coach.coach_id
-                return render_template('teamboard.html', name=coach.coach_fname)
+                return render_template('teamboard.html', team="HELLO")
 
     if member == 'athlete':
         #find athlete in athlete table
@@ -75,7 +75,8 @@ def login_process():
                 # add user to session
                 session['name'] = athlete.a_fname
                 session['id'] = athlete.athlete_id
-                return render_template('teamboard.html', name=athlete.a_fname)
+                print session['name']
+                return render_template('teamboard.html', team="HELLO")
 
     # Redirect to login, incorrect information
     flash("No user exists with that information. Please register or try again.")
@@ -142,10 +143,12 @@ def teams():
 
     return render_template('teamboard.html')
 
+
 @app.route('/sms-send', methods=['POST'])
 def send_message():
 
     content = request.form.get('userMessage')
+    print content
     # import pdb; pdb.set_trace()
     message = client.messages.create(
         to=my_phone,

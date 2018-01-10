@@ -7,7 +7,17 @@ from flask_debugtoolbar import DebugToolbarExtension
 import requests
 import os
 
+
+# Imports the Google Cloud client library
+from google.cloud import translate
+
+# Instantiates a google client
+translate_client = translate.Client()
+
+# Twilio client
 from twilio.rest import Client
+
+google_auth = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
 
 # Secrets and create client for Twilio
 auth_token = os.environ.get('TWILIO_AUTH')
@@ -149,6 +159,24 @@ def teams():
 def send_message():
 
     content = request.form.get('userMessage')
+
+
+    # The text to translate
+    text = content
+    # The target language
+    target = 'de'
+
+    # Translates some text into Russian
+    translation = translate_client.translate(
+        text,
+        target_language=target)
+
+    print(u'Text: {}'.format(text))
+    print(u'Translation: {}'.format(translation['translatedText']))
+
+    translated_text = translation['translatedText']
+
+    content = translated_text
 
     # phone_numbers = db.session.query(Team.athlete.a_phone).filter(Team.team_id == team_id).all()
     phone_list = [my_phone, '+17196440060']

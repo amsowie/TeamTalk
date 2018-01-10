@@ -15,8 +15,8 @@
     <form action="sms-send" id="send-msg" method="POST">
       <p>Message Body</p>
       <span id="chars-left">1600</span> Characters Remaining<br>
-      <textarea type="text" id="text-type" name="msg" maxlength="1600"> </textarea>
-      <input type="submit" value="Send Message">
+      <textarea form="send-msg" id="text-type" name="msg" maxlength="1600"> </textarea>
+      <button type="submit" id="send-message">Send message</button>
     </form>
   </div> <!-- end div for message form -->
 

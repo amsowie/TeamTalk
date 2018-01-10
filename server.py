@@ -141,6 +141,7 @@ def logout():
 def teams():
     """Team page"""
 
+
     return render_template('teamboard.html')
 
 
@@ -156,7 +157,9 @@ def send_message():
         body=content)
 
     print(message.sid)
-    return redirect('/teams', code=307)
+    confirmation = "Message sent"
+    
+    return jsonify(message=confirmation)
 ##############################################################################
 if __name__ == "__main__":  # will connect to db if you run python server.py
     app.debug = True        # won't run in testy.py because it's not server.py

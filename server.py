@@ -2,6 +2,7 @@ import sys
 import json
 import bcrypt
 from jinja2 import StrictUndefined
+from HTMLParser import HTMLParser
 from flask import Flask, render_template, jsonify, request, session, redirect, flash
 from flask_debugtoolbar import DebugToolbarExtension
 import requests
@@ -198,7 +199,13 @@ def send_message():
     print(u'Translation: {}'.format(translation['translatedText']))
 
     translated_text = translation['translatedText']
-    content = translated_text
+
+    h = HTMLParser()
+    h.close()
+    content = h.unescape(translated_text)
+
+    print content
+
     team_id = session['id']
     teammates = db.session.query(Athlete).filter(Athlete.team_id == team_id).all()
 
@@ -225,6 +232,7 @@ def send_message():
 def process_responses():
     """Translate messages back for coach"""
 
+
     to_phone = request.values.get('To')
     from_phone = request.values.get('From', None)
     athlete_response = request.values.get('Body')
@@ -234,17 +242,18 @@ def process_responses():
         text = athlete_response
         target = 'de'
 
-    # Translates text
+    print "now we are working here"
+    #Translates text
     translation = translate_client.translate(
         text,
         target_language=target)
 
     print(u'Text: {}'.format(text))
     print(u'Translation: {}'.format(translation['translatedText']))
-
     translated_text = translation['translatedText']
-
     content = translated_text
+
+
     team = db.session.query(Athlete).filter(Athlete.a_phone == from_phone).first()
 
     coach = db.session.query(Team).filter(Team.team_id == team.team_id).first()

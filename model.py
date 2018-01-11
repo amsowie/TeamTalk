@@ -20,6 +20,7 @@ class Athlete(db.Model):
     a_phone = db.Column(db.String(20), nullable=False)
     a_email = db.Column(db.String(30), nullable=False)
     password = db.Column(db.String(100), nullable=False)
+    team_id = db.Column(db.Integer, db.ForeignKey('teams.team_id'), nullable=False)
 
     def __repr__(self):  # pragma: no cover
         """Useful printout of person object"""
@@ -29,25 +30,21 @@ class Athlete(db.Model):
                                                                 self.a_lname)
 
 # Table to keep track of coaches
-class Coach(db.Model):
-    """Table for coach information"""
+# class Coach(db.Model):
+#     """Table for coach information"""
 
-    __tablename__ = "coaches"
+#     __tablename__ = "coaches"
 
-    coach_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    coach_fname = db.Column(db.String(30), nullable=False)
-    coach_lname = db.Column(db.String(30), nullable=False)
-    coach_phone = db.Column(db.String(20), nullable=False)
-    coach_email = db.Column(db.String(30), nullable=False)
-    password = db.Column(db.String(100), nullable=False)
+#     coach_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
 
-    def __repr__(self):  # pragma: no cover
-        """Useful printout of team object"""
 
-        return "<Coach coach_id={} coach_fname={} coach_lname={}>".format(
-                                                                self.coach_id,
-                                                                self.coach_fname,
-                                                                self.coach_lname)
+    # def __repr__(self):  # pragma: no cover
+    #     """Useful printout of team object"""
+
+    #     return "<Coach coach_id={} coach_fname={} coach_lname={}>".format(
+    #                                                             self.coach_id,
+    #                                                             self.coach_fname,
+    #                                                             self.coach_lname)
 
 # Add table to show which athletes/coaches are on which team
 class Team(db.Model):
@@ -57,18 +54,35 @@ class Team(db.Model):
 
     team_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     team_name = db.Column(db.String(50), nullable=False)
-    coach_id = db.Column(db.Integer, db.ForeignKey('coaches.coach_id'), nullable=False)
-    athlete_id = db.Column(db.Integer, db.ForeignKey('athletes.athlete_id'), nullable=False)
+    # coach_id = db.Column(db.Integer, db.ForeignKey('coaches.coach_id'), nullable=False)
+    coach_fname = db.Column(db.String(30), nullable=False)
+    coach_lname = db.Column(db.String(30), nullable=False)
+    coach_phone = db.Column(db.String(20), nullable=False)
+    coach_email = db.Column(db.String(30), nullable=False)
+    password = db.Column(db.String(100), nullable=False)
+
+    # athlete = db.relationship('Athlete', backref='teams')
 
     def __repr__(self):  # pragma: no cover
         """Useful printout of team object"""
 
-        return "<Team team_id={} team_name={} athlete_id={} coach_id={}>".format(
+        return "<Team team_id={} team_name={} coach_fname={}>".format(
                                                                 self.team_id,
                                                                 self.team_name,
-                                                                self.athlete_id,
-                                                                self.coach_id)
+                                                                self.coach_fname)
 
+# class Teammate(db.Model):
+#     """Association table for connecting athletes/coaches to teams"""
+
+#     __tablename__ = "teammates"
+
+#     team_id = db.Column(db.Integer, db.ForeignKey('teams.team_id'), nullable=False)
+#     athlete_id = db.Column(db.Integer, db.ForeignKey('athletes.athlete_id'), nullable=False)
+
+#     def __repr__(self):  # pragma: no cover
+#         """Useful printout of team object"""
+
+#         return "<Team team_id={} athlete_id={} >".format(self.team_id, self.athlete_id)
 ##############################################################################
 
 def connect_to_db(app, db_uri='postgresql:///bundes'):

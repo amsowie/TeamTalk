@@ -26,7 +26,7 @@ twilio_phone = os.environ.get('TWILIO_PHONE')
 my_phone = os.environ.get('AMY_PHONE')
 client = Client(account_sid, auth_token)
 
-from model import connect_to_db, db, Team, Athlete, Coach
+from model import connect_to_db, db, Team, Athlete
 app = Flask(__name__)
 app.secret_key = "Thanksforallthefish"
 
@@ -111,11 +111,14 @@ def register_process():
     password = request.form.get('password')
     team = request.form.get('team-name')
 
+    team = db.session.query(Team).filter(Team.team_name == team).first()
+    team_id = team.team_id
+
     hashed_pass = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt())
 
     if member == 'athlete':
         new_athlete = Athlete(a_fname=fname, a_lname=lname, a_phone=phone,
-                              a_email=email, password=hashed_pass)
+                              a_email=email, team_id=team_id, password=hashed_pass)
         db.session.add(new_athlete)
         db.session.commit()
 
@@ -123,7 +126,7 @@ def register_process():
         session['id'] = new_athlete.team_id
 
     if member == 'coach':
-        new_coach = Coach(coach_fname=fname, coach_lname=lname,
+        new_coach = Team(coach_fname=fname, coach_lname=lname,
                           coach_phone=phone, coach_email=email, password=hashed_pass)
         db.session.add(new_coach)
         db.session.commit()
@@ -133,7 +136,7 @@ def register_process():
 
     flash('Thank you for registering')
 
-    return render_template('teamboard.html', team=team)
+    return render_template('teamboard.html', team=team.team_name)
 
 @app.route('/logout')
 def logout():
@@ -177,13 +180,19 @@ def send_message():
     translated_text = translation['translatedText']
 
     content = translated_text
+    team_id = session['id']
+    teammates = db.session.query(Athlete).filter(Athlete.team_id == team_id).all()
 
-    # phone_numbers = db.session.query(Team.athlete.a_phone).filter(Team.team_id == team_id).all()
-    phone_list = [my_phone, '+17196440060']
+    # create list of phone numbers for team
+    phone_list = []
+    for person in teammates:
+        phone_list.append(person.a_phone)
+
     #  Cycle through whole team phone list
+    print phone_list
     for number in phone_list:
         message = client.messages.create(
-            to=my_phone,
+            to=number,
             from_=twilio_phone,
             body=content)
 

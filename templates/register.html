@@ -5,27 +5,31 @@
 {% endblock %}
 
 {% block content %}
-<div><h3>Welcome to Team Talk Registration</h3></div> 
+<div><h3>Team Talk Athlete Registration</h3></div> 
 <br><br>
 <div>
 <form action="register-process" method="POST">
   <p>First name:</p>
-  <input type="text" name="firstname"><br><br>
+  <input type="text" name="fname" required><br><br>
   <p>Last name:</p>
-  <input type="text" name="lastname"><br><br>
+  <input type="text" name="lname" required><br><br>
   <p>Email:</p>
-  <input type="text" name="email"><br><br>
+  <input type="text" name="ath-email" required><br><br>
   <p>Phone (+12345678901):</p>
-  <input type="text" name="phone"><br><br>
+  <input type="text" name="ath-phone" required><br><br>
   <p>Team:</p>
-  <input type="radio" name="team-name" value="Affy" checked> Affalterbach<br>
-  <input type="radio" name="team-name" value="Kempten"> Kempten<br><br>
-  <p>Check one:</p>
-  <input type="radio" name="member-type" value="coach" checked> Coach<br>
-  <input type="radio" name="member-type" value="athlete"> Athlete<br><br>
-  <p>Password:</p>
-  <input type="password" name="password"><br><br>
-  <input type="submit" value="Sign up">
+  {% for team in teams %}:
+  <!-- <input type="radio" name="ath-team-name" value="Affy" checked> Affalterbach<br> -->
+  <input type="radio" name="ath-team-name" value="{{ team }}"> {{ team }}<br>
+  {% endfor %}
+</br>
+  <p>Member type:</p>
+  <input type="radio" name="member-type" value="athlete" checked> Athlete<br><br>
+  <p>Language:</p>
+  <input type="radio" name="lang" value="en" checked> English<br>
+  <input type="radio" name="lang" value="de"> German<br>
+  <input type="radio" name="lang" value="in"> Indian<br><br>
+  <input type="submit" value="Register">
 </form>
 </div>
 {% endblock %}

@@ -14,10 +14,9 @@ def write_data():
     """Write trial user data"""
 
     athlete1 = Athlete(a_fname="Brian", a_lname="Bestie", a_phone="+17196440060",
-                       a_email="bb@bb.com", team_id=1,
-                       password=bcrypt.hashpw('bestie', bcrypt.gensalt()))
+                       a_email="bb@bb.com", team_id=1, language="de")
     team1 = Team(team_name="Affy", coach_fname="Kari",
-                  coach_lname="Bestova", coach_phone="+17196440060",
+                  coach_lname="Bestova", coach_phone="+18595823016",
                   coach_email="kb@bb.com", password=bcrypt.hashpw('sugar', bcrypt.gensalt()))
 
 

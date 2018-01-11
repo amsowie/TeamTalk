@@ -19,7 +19,7 @@ class Athlete(db.Model):
     a_lname = db.Column(db.String(30), nullable=False)
     a_phone = db.Column(db.String(20), nullable=False)
     a_email = db.Column(db.String(30), nullable=False)
-    password = db.Column(db.String(100), nullable=False)
+    language = db.Column(db.String(3), nullable=False)
     team_id = db.Column(db.Integer, db.ForeignKey('teams.team_id'), nullable=False)
 
     def __repr__(self):  # pragma: no cover
@@ -54,12 +54,12 @@ class Team(db.Model):
 
     team_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     team_name = db.Column(db.String(50), nullable=False)
-    # coach_id = db.Column(db.Integer, db.ForeignKey('coaches.coach_id'), nullable=False)
     coach_fname = db.Column(db.String(30), nullable=False)
     coach_lname = db.Column(db.String(30), nullable=False)
     coach_phone = db.Column(db.String(20), nullable=False)
     coach_email = db.Column(db.String(30), nullable=False)
     password = db.Column(db.String(100), nullable=False)
+    twilio_phone = db.Column(db.String(20), nullable=True)
 
     # athlete = db.relationship('Athlete', backref='teams')
 

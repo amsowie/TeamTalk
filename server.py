@@ -253,7 +253,6 @@ def process_responses():
     translated_text = translation['translatedText']
     content = translated_text
 
-
     team = db.session.query(Athlete).filter(Athlete.a_phone == from_phone).first()
 
     coach = db.session.query(Team).filter(Team.team_id == team.team_id).first()
@@ -277,7 +276,6 @@ def process_responses():
 
     confirmation = "Message sent"
 
-    print country, "and", athlete_response
     return redirect('/teams')
 
 

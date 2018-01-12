@@ -1,19 +1,23 @@
 .background{
   background-size: cover;
   background-image: url(/static/esslingen.jpg);
+  background-repeat: no-repeat;
 }
 .jumbotron{
     background-color: white !important;
-    opacity: 0.5;
+    opacity: 0.78;
     background-size: 100%;
 }
-.jumbotron p{
-    padding-bottom: 400px;
+p{
+    color: black;
+    font-weight: bold !important;
 }
 h1{
     color: black !important;
     text-align: center;
-    opacity: 1;
+}
+h2{
+    color: black;
 }
 #centering{
     color: black !important;

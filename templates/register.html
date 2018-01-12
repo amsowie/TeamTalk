@@ -6,22 +6,21 @@
 
 {% block content %}
 
-<div class="row"><h3>Team Talk Athlete Registration</h3></div> 
+<div class="row"><h2>Team Talk Athlete Registration</h2></div> 
 <br><br>
 <div class="row">
 <div class="col-xs-12">
-<div>
 <form action="register-process" method="POST">
-  <p>First name:</p>
-  <input type="text" name="fname" required><br><br>
+  <p class="row">First name:</p>
+  <input type="text" name="fname" required>
   <p>Last name:</p>
-  <input type="text" name="lname" required><br><br>
+  <input type="text" name="lname" required>
   <p>Email:</p>
   <input type="text" name="ath-email" required><br><br>
   <p>Phone (+12345678901):</p>
   <input type="text" name="ath-phone" required><br><br>
   <p>Team:</p>
-  {% for team in teams %}:
+  {% for team in teams %}
   <!-- <input type="radio" name="ath-team-name" value="Affy" checked> Affalterbach<br> -->
   <input type="radio" name="ath-team-name" value="{{ team }}"> {{ team }}<br>
   {% endfor %}
@@ -30,10 +29,11 @@
   <input type="radio" name="member-type" value="athlete" checked> Athlete<br><br>
   <p>Language:</p>
   <input type="radio" name="lang" value="en" checked> English<br>
-  <input type="radio" name="lang" value="de"> German<br>
+  <input type="radio" name="lang" value="de"> German<br><br>
   <!-- <input type="radio" name="lang" value="in"> Indian<br><br> -->
   <input type="submit" value="Register">
 </form>
+<div class="row">
 </div>
 </div>
 </div>

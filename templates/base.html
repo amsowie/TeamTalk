@@ -11,8 +11,6 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </head>
 <body class="background">
-
-  <div>
     <nav class="navbar navbar-default navbar-inverse">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -45,26 +43,25 @@
       {% if 'name' in session %}
       <ul class="nav navbar-nav navbar-right">
         <li id="logout"><a href="/logout">Logout</a></li>
-        <li id="delete-athletes"><a href="/delete">Delete Athletes</a></li>
-      </ul>
+<!--         <li id="delete-athletes"><a href="/delete">Delete Athletes</a></li>
+ -->      </ul>
       {% endif %}
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
   <div class="col-xs-12">
-<div class="container-fluid">
+  <div class="container-fluid">
   <div class="jumbotron" "text-center">
-    <div class="container">
-<div class="fade">
+    <div class="fade">
     {% for msg in get_flashed_messages() %}
       <li>{{ msg }}</li>
     {% endfor %}
-  </div>
+    </div>
     {% block content %}BODY CONTENT GOES HERE{% endblock %}
           <script src="/static/talk.js"></script>
-</div>
-</div>
-  </div> <!-- end jumbotron -->
+  </div>
+  </div>
+  </div>
 </div>
 </body>
 </html>

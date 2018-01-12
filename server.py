@@ -166,17 +166,15 @@ def logout():
     del session['name']
     del session['id']
 
-    # Delete team session info
-    # del session[team_id]
-        
     return redirect('/')
 
 @app.route('/teams')
 def teams():
     """Team page"""
 
-
-    return render_template('teamboard.html')
+    team = db.session.query(Team).filter(Team.team_id == session['id']).first()
+    team = team.team_name
+    return render_template('teamboard.html', team=team)
 
 
 @app.route('/sms-send', methods=['POST'])

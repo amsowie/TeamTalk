@@ -11,25 +11,25 @@
 <div class="row">
 <div class="col-xs-12">
 <form action="register-process" method="POST">
-  <p class="row">First name:</p>
-  <input type="text" name="fname" required>
-  <p>Last name:</p>
-  <input type="text" name="lname" required>
-  <p>Email:</p>
+  <p>Vorname:</p>
+  <input type="text" name="fname" required><br><br>
+  <p>Nachname:</p>
+  <input type="text" name="lname" required><br><br>
+  <p>E-Mail:</p>
   <input type="text" name="ath-email" required><br><br>
-  <p>Phone (+12345678901):</p>
+  <p>Telefonnummer (+12345678901):</p>
   <input type="text" name="ath-phone" required><br><br>
-  <p>Team:</p>
+  <p>Mannschaft:</p>
   {% for team in teams %}
   <!-- <input type="radio" name="ath-team-name" value="Affy" checked> Affalterbach<br> -->
   <input type="radio" name="ath-team-name" value="{{ team }}"> {{ team }}<br>
   {% endfor %}
 </br>
-  <p>Member type:</p>
+  <p>Mannschaftsmitglied:</p>
   <input type="radio" name="member-type" value="athlete" checked> Athlete<br><br>
-  <p>Language:</p>
-  <input type="radio" name="lang" value="en" checked> English<br>
-  <input type="radio" name="lang" value="de"> German<br><br>
+  <p>Sprache:</p>
+  <input type="radio" name="lang" value="en" checked> Englisch<br>
+  <input type="radio" name="lang" value="de"> Deutsch<br><br>
   <!-- <input type="radio" name="lang" value="in"> Indian<br><br> -->
   <input type="submit" value="Register">
 </form>

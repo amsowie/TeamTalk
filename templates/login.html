@@ -5,16 +5,16 @@
 {% endblock %}
 
 {% block content %}
-<div><h2>Please log in</h2></div> 
+<div><h2>Bitte log in</h2></div> 
 <br><br>
 <div>
 <form action="login-process" method="POST">
-  <p>Email:</p>
+  <p>E-Mail:</p>
   <input type="text" name="email"><br><br>
   <p>Password:</p>
   <input type="password" name="password"><br><br>
-  <p>Member type:</p>
-  <input type="radio" name="member-type" value="coach" checked> Coach<br>
+  <p>Mannschaftsmitglied:</p>
+  <input type="radio" name="member-type" value="coach" checked> Coach<br><br>
   <!-- <input type="radio" name="member-type" value="athlete" checked> Athlete<br><br> -->
   <input type="submit" value="Login">
 </form>
